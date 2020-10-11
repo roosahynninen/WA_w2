@@ -38,6 +38,7 @@ function onClick(table) {
 
 function fillCell(table, table_cell) {
   count++;
+  changeTurn();
   if (count % 2 === 0) {
     if (table_cell.innerHTML === "") {
       table_cell.innerHTML = "o";
@@ -173,8 +174,12 @@ function clearTable(table) {
   for (var tab = 0; tab < table.rows.length; tab++) {
     for (var i = 0; i < table.rows[tab].cells.length; i++) {
       table.rows[tab].cells[i].innerHTML = "";
+      table.rows[tab].cells[i].style.backgroundColor = "rgb(255, 255, 255)";
     }
   }
+  bar.style.width = "0%";
+  count = 0;
+  counter = 0;
 }
 
 function changeTurn() {
