@@ -3,8 +3,13 @@ import "./styles.css";
 document.getElementById("board").innerHTML = ``;
 
 var count = 0;
+var timeleft;
+var timer;
+var end_turn;
+var counter = 0;
 
 var board = document.getElementById("board");
+var bar = document.getElementsByClassName("w3-grey")[0];
 
 function createTable() {
   var table = document.createElement("table");
@@ -36,6 +41,12 @@ function fillCell(table, table_cell) {
   if (count % 2 === 0) {
     if (table_cell.innerHTML === "") {
       table_cell.innerHTML = "o";
+      table_cell.style.backgroundColor = "rgb(250, 128, 114)";
+      countdownTime();
+      counter++;
+      var percent = counter / 25;
+      var bar_percent = percent * 100;
+      bar.style.width = bar_percent + "%";
     } else {
       alert("This cell is already taken");
       count--;
@@ -43,6 +54,12 @@ function fillCell(table, table_cell) {
   } else {
     if (table_cell.innerHTML === "") {
       table_cell.innerHTML = "x";
+      table_cell.style.backgroundColor = "rgb(124, 252, 0)";
+      countdownTime();
+      counter++;
+      var percent = counter / 25;
+      var bar_percent = percent * 100;
+      bar.style.width = bar_percent + "%";
     } else {
       alert("This cell is already taken");
       count--;
@@ -158,6 +175,36 @@ function clearTable(table) {
       table.rows[tab].cells[i].innerHTML = "";
     }
   }
+}
+
+function changeTurn() {
+  timeleft = 10;
+  clearInterval(timer);
+
+  timer = setInterval(function () {
+    if (timeleft === 0) {
+      clearInterval(timer);
+    } else {
+      document.getElementById("time").innerHTML = "Time left: " + timeleft;
+      timeleft--;
+    }
+  }, 1000);
+  nullEndTurn();
+}
+
+function countdownTime() {
+  end_turn = setTimeout(endTurn, 10000);
+}
+
+function endTurn() {
+  alert("Time is over, your turn ends");
+  count++;
+  changeTurn();
+  countdownTime();
+}
+
+function nullEndTurn() {
+  clearTimeout(end_turn);
 }
 
 createTable();
